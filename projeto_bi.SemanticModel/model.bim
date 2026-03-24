@@ -1,5 +1,5 @@
 {
-  "compatibilityLevel": 1550,
+  "compatibilityLevel": 1567,
   "model": {
     "annotations": [
       {
@@ -106,7 +106,7 @@
             "summarizeBy": "none"
           },
           {
-            "name": "Duração",
+            "name": "Duração_em_minutos",
             "annotations": [
               {
                 "name": "SummarizationSetBy",
@@ -115,7 +115,7 @@
             ],
             "dataType": "string",
             "lineageTag": "30790aa7-6467-456b-af53-0b83122eecab",
-            "sourceColumn": "Duração",
+            "sourceColumn": "Duração_em_minutos",
             "summarizeBy": "none"
           },
           {
@@ -404,9 +404,73 @@
             "lineageTag": "b4012f07-214f-48ff-bcd7-95a21e81e2f1",
             "sourceColumn": "Oscar",
             "summarizeBy": "sum"
+          },
+          {
+            "name": "Status de Critica",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": "IF(imdb_movies[Avaliação_imdb] >= 80, \"Excelente\", \"Comum\")",
+            "isDataTypeInferred": true,
+            "lineageTag": "6b08c3f7-2cbf-4b80-9362-59e75602f24d",
+            "summarizeBy": "none",
+            "type": "calculated"
           }
         ],
         "lineageTag": "8ef938a8-2d13-4fcb-a250-5f7e483c19cf",
+        "measures": [
+          {
+            "name": "Contagem de filmes",
+            "expression": "DISTINCTCOUNT(imdb_movies[ID])",
+            "formatString": "0",
+            "lineageTag": "707997af-14a0-4864-9614-67aacbda7e7a"
+          },
+          {
+            "name": "Lucro ou Prejuizo total",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"pt-BR\"}"
+              }
+            ],
+            "expression": "SUMX(imdb_movies, imdb_movies[Receita] - imdb_movies[Orçamento])",
+            "formatString": "\"R$\"\\ #,0.###############;-\"R$\"\\ #,0.###############;\"R$\"\\ #,0.###############",
+            "lineageTag": "98b40faf-0b2f-48ec-af79-f8f76132aa17"
+          },
+          {
+            "name": "Media 2000's",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "expression": "CALCULATE(AVERAGE(imdb_movies[Avaliação_imdb]), imdb_movies[Ano] >=2000)",
+            "lineageTag": "7bfa78a1-205f-45bc-8365-f6e892179d16"
+          },
+          {
+            "name": "Resultado_Financeiro",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"pt-BR\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    imdb_movies,",
+              "    imdb_movies[Receita] - imdb_movies[Orçamento]",
+              ")"
+            ],
+            "formatString": "\"R$\"\\ #,0.###############;-\"R$\"\\ #,0.###############;\"R$\"\\ #,0.###############",
+            "lineageTag": "76e463f3-0e00-4891-8c5e-12d85bf84585"
+          }
+        ],
         "partitions": [
           {
             "name": "imdb_movies",
@@ -460,9 +524,10 @@
                 "else \"longa metragem\"),",
                 "    #\"Erros Removidos3\" = Table.RemoveRowsWithErrors(#\"Personalização Adicionada2\", {\"Classificação_duração\"}),",
                 "    #\"Colunas Reordenadas3\" = Table.ReorderColumns(#\"Erros Removidos3\",{\"ID\", \"Título\", \"Ano\", \"Classificação_duração\", \"Duração\", \"Hora\", \"Minutos\", \"Classificação_indicativa\", \"Avaliação_imdb\", \"Voto\", \"Orçamento\", \"Receita\", \"Receita_EUA_Canada\", \"Receita_semana_lançamento\", \"Diretor\", \"Escritor\", \"Estrela\", \"Gênero\", \"País_origem\", \"Local_filmagem\", \"Compania_produção\", \"Idioma\", \"Vitória\", \"Nomiações\", \"Oscar\"}),",
-                "    #\"Valor Substituído1\" = Table.ReplaceValue(#\"Colunas Reordenadas3\",null,\"Desconhecido\",Replacer.ReplaceValue,{\"Local_filmagem\"})",
+                "    #\"Valor Substituído1\" = Table.ReplaceValue(#\"Colunas Reordenadas3\",null,\"Desconhecido\",Replacer.ReplaceValue,{\"Local_filmagem\"}),",
+                "    #\"Colunas Renomeadas5\" = Table.RenameColumns(#\"Valor Substituído1\",{{\"Duração\", \"Duração_em_minutos\"}})",
                 "in",
-                "    #\"Valor Substituído1\""
+                "    #\"Colunas Renomeadas5\""
               ],
               "type": "m"
             }
