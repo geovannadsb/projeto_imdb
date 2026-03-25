@@ -82,15 +82,7 @@ O dashboard possui os seguintes gráficos:
 
 ---
 
-## Dashboard
-
-
-![Dashboard]("C:\Users\geova\OneDrive - UniCEUB\Imagens\Capturas de tela\Captura de tela 2026-03-24 114303.png")
-
 
 ---
 
 <a href="#readme-top">Voltar ao topo</a>
-
-```
-```
