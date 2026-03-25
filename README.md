@@ -80,9 +80,10 @@ O dashboard possui os seguintes gráficos:
 - DAX
 - GitHub
 
----
+--- 
 
+## Visualização do Dashboard
 
----
+![Dashboard](dashboard.png)
 
 <a href="#readme-top">Voltar ao topo</a>
