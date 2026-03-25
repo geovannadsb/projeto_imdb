@@ -54,7 +54,7 @@ O dashboard foi desenvolvido para responder às seguintes perguntas:
 O dashboard possui os seguintes gráficos:
 
 - Receita Bruta por Diretor
-- Top Filmes por Receita
+- Filmes por Receita
 - Receita Bruta por Gênero
 - Filmes por Ano
 - Status de Crítica (Excelente x Comum)
